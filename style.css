@@ -1,0 +1,115 @@
+/* General */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+  font-family: sans-serif;
+}
+
+body {
+  background-color: #ddd;
+  color: #333;
+
+  width: 100vw;
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.main-header {
+  width: 100%;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+  padding: 0.8rem 1.6rem;
+
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+main {
+  position: relative;
+
+  flex: 1;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+}
+
+#board {
+  width: 100%;
+  flex: 1;
+
+  background-image: radial-gradient(#999 1px, transparent 1px);
+  background-position: 0 0;
+  background-size: 50px 50px;
+}
+
+.toolbox {
+  width: 100%;
+  height: 100px;
+  background-color: #aaa;
+}
+
+/* Shape */
+.shape {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.shape__element {
+  background-color: #ccc;
+  border: 2px solid #333;
+  width: 100px;
+  height: 100px;
+}
+
+.shape:hover .shape__element {
+  resize: both;
+  overflow: auto;
+  cursor: move;
+}
+
+.shape__element.dragging {
+  opacity: 0.5;
+}
+
+.circle {
+  border-radius: 50%;
+}
+
+/* Controls */
+.shape__controls {
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translateY(-100%);
+  z-index: 9999;
+
+  display: none;
+}
+
+.shape:hover .shape__controls {
+  display: flex;
+  gap: 6px;
+}
+
+.shape__controls button {
+  background: none;
+  border: none;
+  color: #333;
+  transition: all 0.3s;
+}
+
+.shape__controls button:hover {
+  cursor: pointer;
+  color: #222;
+  transform: scale(1.2);
+}

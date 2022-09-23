@@ -1,8 +1,35 @@
 // buttons onClick functions
 const modifyText = function (element) {
-  console.log(element);
+  // Create form
+  const form = document.createElement("form");
+  form.classList.add("shape__form");
+
+  // input
+  const input = document.createElement("input");
+  input.classList.add("shape__input");
+  input.type = "text";
+
+  const shapeText = element.firstChild.firstChild;
+  shapeText.textContent = "";
+
+  form.appendChild(input);
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    // Shape container => shape => shape text => text
+    shapeText.textContent = input.value;
+
+    form.remove();
+  });
+
+  element.firstChild.appendChild(form);
 };
-const rotateElement = function (element) {};
+
+const rotateElement = function (element) {
+  element.classList.toggle("rotated");
+};
+
 const deleteElement = function (element) {
   element.remove();
 };
@@ -41,6 +68,10 @@ export const createShape = function (shape, container) {
   const element = document.createElement("div");
   element.classList.add("shape__element", shape);
   element.draggable = true;
+
+  const elementText = document.createElement("p");
+  elementText.classList.add("shape__text");
+  element.appendChild(elementText);
 
   elementContainer.appendChild(element);
 

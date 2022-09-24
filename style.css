@@ -83,10 +83,6 @@ main {
   opacity: 0.5;
 }
 
-.rotated .shape__element {
-  transform: rotate(45deg);
-}
-
 .circle {
   border-radius: 50%;
 }
@@ -128,9 +124,4 @@ main {
 .shape__text {
   font-size: 1.4rem;
   font-weight: 600;
-}
-
-.rotated .shape__text,
-.rotated .shape__input {
-  transform: rotate(-45deg);
 }

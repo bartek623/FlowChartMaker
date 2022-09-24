@@ -24,10 +24,7 @@ const modifyText = function (element) {
   });
 
   element.firstChild.appendChild(form);
-};
-
-const rotateElement = function (element) {
-  element.classList.toggle("rotated");
+  input.focus();
 };
 
 const deleteElement = function (element) {
@@ -53,7 +50,6 @@ const setControls = function (element) {
   };
 
   createButton("edit_note", modifyText);
-  createButton("refresh", rotateElement);
   createButton("delete", deleteElement);
 
   element.appendChild(controls);
@@ -89,6 +85,7 @@ export const createShape = function (shape, container) {
 const dragHandling = function (element, container) {
   const mousePos = { left: 0, top: 0 };
   let elementPos = { left: 0, top: 0 };
+  const containerPos = container.getBoundingClientRect();
 
   element.addEventListener("dragstart", (e) => {
     element.classList.add("dragging");
@@ -110,12 +107,29 @@ const dragHandling = function (element, container) {
     const newTop =
       elementPos.top + distanceY - container.getBoundingClientRect().top;
 
-    if (newLeft < elementPos.width / -2 || newTop < elementPos.height / -2) {
+    console.log(newTop);
+
+    // delete element when it overflows board
+    const leftBorder = 0 - elementPos.width / 2;
+    const rightBorder = containerPos.width - elementPos.width / 2;
+    const topBorder = 0 - elementPos.height / 2;
+    const bottomBorder = containerPos.height - elementPos.height / 2;
+    console.log(newLeft, rightBorder);
+    if (
+      newLeft < leftBorder ||
+      newLeft > rightBorder ||
+      newTop < topBorder ||
+      newTop > bottomBorder
+    ) {
       element.remove();
       return;
     }
 
     element.style.left = `${newLeft}px`;
     element.style.top = `${newTop}px`;
+  });
+
+  container.addEventListener("dragover", (e) => {
+    e.preventDefault();
   });
 };

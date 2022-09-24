@@ -1,5 +1,6 @@
 // buttons onClick functions
 const modifyText = function (element) {
+  if (element.querySelector("form")) return;
   // Create form
   const form = document.createElement("form");
   form.classList.add("shape__form");

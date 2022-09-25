@@ -68,10 +68,9 @@ const dragHandling = function (element, container) {
       return;
     }
 
-    // BUG
-    updateLines();
     element.style.left = `${newLeft}px`;
     element.style.top = `${newTop}px`;
+    updateLines();
   });
 
   container.addEventListener("dragover", (e) => {

@@ -73,7 +73,7 @@ const drawLines = function () {
 
     lineEl.addEventListener("click", () => {
       lineEl.remove();
-      lines = lines.filter((item) => Object.is(item, line));
+      lines = lines.filter((item) => !Object.is(item, line));
     });
 
     container.appendChild(lineEl);

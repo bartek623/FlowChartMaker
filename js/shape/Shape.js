@@ -1,60 +1,5 @@
-// buttons onClick functions
-const modifyText = function (element) {
-  if (element.querySelector("form")) return;
-  // Create form
-  const form = document.createElement("form");
-  form.classList.add("shape__form");
-
-  // input
-  const input = document.createElement("input");
-  input.classList.add("shape__input");
-  input.type = "text";
-
-  const shapeText = element.firstChild.firstChild;
-  shapeText.textContent = "";
-
-  form.appendChild(input);
-
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-
-    // Shape container => shape => shape text => text
-    shapeText.textContent = input.value;
-
-    form.remove();
-  });
-
-  element.firstChild.appendChild(form);
-  input.focus();
-};
-
-const deleteElement = function (element) {
-  element.remove();
-};
-
-// controls
-const setControls = function (element) {
-  const controls = document.createElement("div");
-  controls.classList.add("shape__controls");
-
-  const createButton = (icon, onClick) => {
-    const btn = document.createElement("button");
-    btn.insertAdjacentHTML(
-      "beforeend",
-      `<span class="material-symbols-outlined">${icon}</span>`
-    );
-    btn.addEventListener("click", () => {
-      onClick(element);
-    });
-
-    controls.appendChild(btn);
-  };
-
-  createButton("edit_note", modifyText);
-  createButton("delete", deleteElement);
-
-  element.appendChild(controls);
-};
+import { setControls } from "./ShapeControls.js";
+import { updateLines } from "./ShapeLines.js";
 
 // Creating element
 export const createShape = function (shape, container) {
@@ -108,14 +53,11 @@ const dragHandling = function (element, container) {
     const newTop =
       elementPos.top + distanceY - container.getBoundingClientRect().top;
 
-    console.log(newTop);
-
     // delete element when it overflows board
     const leftBorder = 0 - elementPos.width / 2;
     const rightBorder = containerPos.width - elementPos.width / 2;
     const topBorder = 0 - elementPos.height / 2;
     const bottomBorder = containerPos.height - elementPos.height / 2;
-    console.log(newLeft, rightBorder);
     if (
       newLeft < leftBorder ||
       newLeft > rightBorder ||
@@ -128,6 +70,7 @@ const dragHandling = function (element, container) {
 
     element.style.left = `${newLeft}px`;
     element.style.top = `${newTop}px`;
+    updateLines();
   });
 
   container.addEventListener("dragover", (e) => {

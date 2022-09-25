@@ -1,3 +1,19 @@
+:root {
+  /* 1 lightest - 6 darkest  */
+  --blue1: #dee4e9;
+  --blue2: #bec9d4;
+  --blue3: #9eafbf;
+  --blue4: #7f96aa;
+  --blue5: #607e96;
+  --blue6: #406682;
+
+  --border: var(--blue6);
+  --light-background: var(--blue1);
+  --medium-background: var(--blue2);
+  --dark-background: var(--blue3);
+  --shape-background: var(--dark-background);
+}
+
 /* General */
 * {
   margin: 0;
@@ -23,6 +39,7 @@ body {
 
 .main-header {
   width: 100%;
+  background-color: var(--dark-background);
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
   padding: 0.8rem 1.6rem;
 
@@ -43,18 +60,21 @@ main {
 }
 
 #board {
+  position: relative;
+
   width: 100%;
   flex: 1;
 
-  background-image: radial-gradient(#999 1px, transparent 1px);
+  background-color: var(--medium-background);
+  background-image: radial-gradient(var(--border) 1px, transparent 1px);
   background-position: 0 0;
-  background-size: 50px 50px;
+  background-size: 40px 40px;
 }
 
 /* Toolbox */
 .toolbox {
   width: 100%;
-  background-color: #aaa;
+  background-color: var(--light-background);
   padding: 1.2rem;
   transform: translateY(0);
 
@@ -64,7 +84,7 @@ main {
   display: flex;
   justify-content: space-around;
 
-  transition: all 0.3s ease-out;
+  transition: all 0.4s ease-in-out;
 }
 
 .toolbox--hidden {
@@ -74,7 +94,7 @@ main {
 .toolbox__show-btn {
   width: 2.4rem;
   height: 2.4rem;
-  border: 1px solid #333;
+  border: 1px solid var(--border);
   border-radius: 50%;
 
   display: flex;
@@ -88,6 +108,7 @@ main {
   translate: -50% -100%;
 
   color: #222;
+  background-color: var(--dark-background);
 
   transition: background-color 0.2s;
 }
@@ -102,12 +123,12 @@ main {
 }
 
 .toolbox__btn {
-  background-color: #ccc;
-  /* border: 2px solid #333; */
-  border: none;
+  background-color: var(--shape-background);
+  border: 2px solid var(--border);
   width: 100px;
   height: 100px;
   font-family: inherit;
+  font-weight: 600;
   text-transform: capitalize;
   flex: 0 2 100px;
 
@@ -127,8 +148,8 @@ main {
 }
 
 .shape__element {
-  background-color: #ccc;
-  border: 2px solid #333;
+  background-color: var(--dark-background);
+  border: 2px solid var(--border);
   width: 100px;
   height: 100px;
 
@@ -146,6 +167,13 @@ main {
   opacity: 0.5;
 }
 
+.shape:hover .shape__controls,
+.shape:hover .anchor-btn {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
 .circle {
   border-radius: 50%;
 }
@@ -158,12 +186,12 @@ main {
   transform: translateY(-100%);
   z-index: 9999;
 
-  display: none;
-}
-
-.shape:hover .shape__controls {
   display: flex;
   gap: 6px;
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 .shape__controls button {
@@ -190,4 +218,96 @@ main {
   width: 100%;
   word-wrap: break-word;
   text-align: center;
+}
+
+/* anchors */
+
+.anchor-btn {
+  width: 1.6rem;
+  height: 1.6rem;
+  font-size: 1.6rem;
+  color: #222;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background-color: var(--light-background);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: absolute;
+
+  transition: all 0.3s;
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.anchor-btn span {
+  font-size: inherit;
+}
+
+.anchor-btn:hover {
+  cursor: pointer;
+  background-color: #bbb;
+}
+
+.anchor-left {
+  left: 0;
+  top: 50%;
+
+  transform: translate(-50%, -50%);
+}
+
+.anchor-right {
+  right: 0;
+  top: 50%;
+
+  transform: translate(50%, -50%);
+}
+
+.anchor-top {
+  left: 50%;
+  top: 0;
+
+  transform: translate(-50%, -50%);
+}
+
+.anchor-bottom {
+  left: 50%;
+  bottom: 0;
+
+  transform: translate(-50%, 50%);
+}
+
+/* lines */
+.line {
+  height: 2px;
+  background-color: var(--border);
+  border-radius: 10rem;
+
+  transform-origin: left;
+
+  position: absolute;
+  z-index: 999;
+}
+
+.line:hover {
+  cursor: pointer;
+  background-color: #777;
+}
+
+.line::after {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+
+  content: "";
+  width: 0;
+  height: 0;
+  border-top: 1rem solid transparent;
+  border-bottom: 1rem solid transparent;
+  border-left: 1.6rem solid var(--border);
 }

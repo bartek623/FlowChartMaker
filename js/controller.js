@@ -1,4 +1,4 @@
-import { createShape } from "./shape.js";
+import { createShape } from "./shape/Shape.js";
 
 const board = document.getElementById("board");
 const toolbox = document.querySelector(".toolbox");
@@ -18,7 +18,4 @@ addRectBtn.addEventListener("click", () => {
 });
 addCircBtn.addEventListener("click", () => {
   createShape("circle", board);
-});
-addDiamBtn.addEventListener("click", () => {
-  createShape("diamond", board);
 });

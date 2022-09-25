@@ -69,6 +69,8 @@ export const setControls = function (element) {
   };
   createLineAnchor("left");
   createLineAnchor("right");
+  createLineAnchor("top");
+  createLineAnchor("bottom");
 
   element.appendChild(controls);
 };

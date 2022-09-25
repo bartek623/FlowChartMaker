@@ -43,12 +43,14 @@ main {
 }
 
 #board {
+  position: relative;
+
   width: 100%;
   flex: 1;
 
   background-image: radial-gradient(#999 1px, transparent 1px);
   background-position: 0 0;
-  background-size: 50px 50px;
+  background-size: 30px 30px;
 }
 
 /* Toolbox */
@@ -64,7 +66,7 @@ main {
   display: flex;
   justify-content: space-around;
 
-  transition: all 0.3s ease-out;
+  transition: all 0.4s ease-in-out;
 }
 
 .toolbox--hidden {
@@ -146,6 +148,13 @@ main {
   opacity: 0.5;
 }
 
+.shape:hover .shape__controls,
+.shape:hover .anchor-btn {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
 .circle {
   border-radius: 50%;
 }
@@ -158,12 +167,12 @@ main {
   transform: translateY(-100%);
   z-index: 9999;
 
-  display: none;
-}
-
-.shape:hover .shape__controls {
   display: flex;
   gap: 6px;
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 .shape__controls button {
@@ -190,4 +199,62 @@ main {
   width: 100%;
   word-wrap: break-word;
   text-align: center;
+}
+
+/* anchors */
+
+.anchor-btn {
+  width: 2.4rem;
+  height: 2.4rem;
+  color: #222;
+  border: 1px solid #333;
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: absolute;
+
+  transition: all 0.3s;
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.anchor-btn:hover {
+  cursor: pointer;
+  background-color: #bbb;
+}
+
+.anchor-left {
+  left: 0;
+  top: 50%;
+
+  transform: translate(-50%, -50%);
+}
+
+.anchor-right {
+  right: 0;
+  top: 50%;
+
+  transform: translate(50%, -50%);
+}
+
+/* lines */
+.line {
+  height: 5px;
+  background-color: #222;
+  border-radius: 10rem;
+
+  transform-origin: left;
+
+  position: absolute;
+  z-index: 999;
+}
+
+.line:hover {
+  cursor: pointer;
+  background-color: #777;
 }

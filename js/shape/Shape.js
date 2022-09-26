@@ -23,6 +23,13 @@ export const createShape = function (shape, container) {
   // Add events handling to element
   dragHandling(elementContainer, container);
 
+  // on resize observer
+  // !!!! is it optimal enough?
+  const resizeObserver = new ResizeObserver(() => {
+    updateLines();
+  });
+  resizeObserver.observe(elementContainer);
+
   // Add element to our flow chart
   container.appendChild(elementContainer);
 };

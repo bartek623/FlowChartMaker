@@ -59,6 +59,11 @@ main {
   overflow: hidden;
 }
 
+button span {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
 #board {
   position: relative;
 
@@ -183,11 +188,13 @@ main {
   position: absolute;
   top: 0;
   right: 0;
-  transform: translateY(-100%);
+  transform: translateY(-80%);
   z-index: 9999;
+  padding-bottom: 0.4rem;
+  width: 100%;
 
   display: flex;
-  gap: 6px;
+  justify-content: space-between;
 
   opacity: 0;
   visibility: hidden;
@@ -236,6 +243,7 @@ main {
   justify-content: center;
 
   position: absolute;
+  z-index: 9999999;
 
   transition: all 0.3s;
 
@@ -307,7 +315,17 @@ main {
   content: "";
   width: 0;
   height: 0;
+
   border-top: 1rem solid transparent;
   border-bottom: 1rem solid transparent;
+  /* border-left: 1.6rem solid var(--border); */
+}
+
+/* 'Logic' for arrow direction  */
+.line[data-direction="right"]::after {
+  border-right: 1.6rem solid var(--border);
+}
+
+.line[data-direction="left"]::after {
   border-left: 1.6rem solid var(--border);
 }

@@ -44,6 +44,11 @@ const drawLines = function () {
   const container = document.getElementById("board");
 
   lines.forEach((line) => {
+    if (!line.start.getX() || !line.end.getX()) {
+      lines = lines.filter((item) => !Object.is(item, line));
+      return;
+    }
+
     const lineEl = document.createElement("div");
     lineEl.classList.add("line");
     let isReversedOrder = false;
@@ -70,6 +75,8 @@ const drawLines = function () {
     lineEl.style.left = leftPos + "px";
     lineEl.style.top = topPos + "px";
     lineEl.style.rotate = angle + "rad";
+
+    lineEl.dataset.direction = isReversedOrder ? "right" : "left";
 
     lineEl.addEventListener("click", () => {
       lineEl.remove();

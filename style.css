@@ -262,14 +262,16 @@ button span {
 }
 
 .anchor-left {
-  left: 0;
+  /* 1px comes from element border size, if we set it to 0 then lines looks to be offset by 1 pixels */
+  left: 1px;
   top: 50%;
 
   transform: translate(-50%, -50%);
 }
 
 .anchor-right {
-  right: 0;
+  /* 1px comes from element border size, if we set it to 0 then lines looks to be offset by 1 pixels */
+  right: 1px;
   top: 50%;
 
   transform: translate(50%, -50%);
@@ -284,7 +286,8 @@ button span {
 
 .anchor-bottom {
   left: 50%;
-  bottom: 0;
+  /* 2px comes from element border size, if we set it to 0 then lines looks to be offset by 2 pixels */
+  bottom: 2px;
 
   transform: translate(-50%, 50%);
 }
@@ -318,7 +321,6 @@ button span {
 
   border-top: 1rem solid transparent;
   border-bottom: 1rem solid transparent;
-  /* border-left: 1.6rem solid var(--border); */
 }
 
 /* 'Logic' for arrow direction  */
@@ -328,4 +330,15 @@ button span {
 
 .line[data-direction="left"]::after {
   border-left: 1.6rem solid var(--border);
+}
+
+/* Snap lines */
+.snap-line {
+  position: absolute;
+
+  min-width: 1px;
+  min-height: 1px;
+
+  opacity: 0.3;
+  background-color: var(--border);
 }

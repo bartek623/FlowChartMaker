@@ -1,5 +1,19 @@
 import { setControls } from "./ShapeControls.js";
 import { updateLines } from "./ShapeLines.js";
+import {
+  showSnapLines,
+  removeSnapLines,
+  snapToLine,
+} from "./ShapeSnapLines.js";
+
+const shapes = [];
+
+export const removeShape = function (element) {
+  const elementIndex = shapes.findIndex((shape) => shape === element);
+
+  shapes.splice(elementIndex, 1);
+  element.remove();
+};
 
 // Creating element
 export const createShape = function (shape, container) {
@@ -16,6 +30,7 @@ export const createShape = function (shape, container) {
   element.appendChild(elementText);
 
   elementContainer.appendChild(element);
+  shapes.push(elementContainer);
 
   // controls
   setControls(elementContainer);
@@ -46,6 +61,8 @@ const dragHandling = function (element, container) {
     mousePos.left = e.clientX;
     mousePos.top = e.clientY;
     elementPos = element.getBoundingClientRect();
+
+    showSnapLines(element, shapes, container);
   });
 
   element.addEventListener("dragend", (e) => {
@@ -71,13 +88,15 @@ const dragHandling = function (element, container) {
       newTop < topBorder ||
       newTop > bottomBorder
     ) {
-      element.remove();
+      removeShape(element);
       return;
     }
 
     element.style.left = `${newLeft}px`;
     element.style.top = `${newTop}px`;
+    snapToLine(element, shapes, container);
     updateLines();
+    removeSnapLines();
   });
 
   container.addEventListener("dragover", (e) => {

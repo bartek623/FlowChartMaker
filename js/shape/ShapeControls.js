@@ -1,4 +1,5 @@
 import { createLine } from "./ShapeLines.js";
+import { removeShape } from "./Shape.js";
 
 // buttons onClick functions
 const modifyText = function (element) {
@@ -31,7 +32,7 @@ const modifyText = function (element) {
 };
 
 const deleteElement = function (element) {
-  element.remove();
+  removeShape(element);
 };
 
 // controls
@@ -45,9 +46,7 @@ export const setControls = function (element) {
       "beforeend",
       `<span class="material-symbols-outlined">${icon}</span>`
     );
-    btn.addEventListener("click", () => {
-      onClick(element);
-    });
+    btn.addEventListener("click", onClick.bind(null, element));
 
     controls.appendChild(btn);
   };

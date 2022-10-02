@@ -11,7 +11,7 @@ const currentAnchor = {
   },
 };
 
-let lines = [];
+const lines = [];
 
 // Create line
 export const createLine = function (anchor) {
@@ -35,7 +35,19 @@ export const createLine = function (anchor) {
   updateLines();
 };
 
+const removeLine = function (line) {
+  const lineIndex = lines.findIndex((el) => el === line);
+  lines.splice(lineIndex, 1);
+
+  this.remove();
+};
+
 const removeLines = function () {
+  // It is used only for remove rendered on screen lines
+  // which will be rerender again at moment !
+  // After this should be called drawLines
+  //
+  // To remove permamently line, use removeLine function instead
   const lineNodes = document.querySelectorAll(".line");
   lineNodes.forEach((line) => line.remove());
 };
@@ -45,7 +57,8 @@ const drawLines = function () {
 
   lines.forEach((line) => {
     if (!line.start.getX() || !line.end.getX()) {
-      lines = lines.filter((item) => !Object.is(item, line));
+      const lineIndex = lines.findIndex((el) => el === line);
+      lines.splice(lineIndex, 1);
       return;
     }
 
@@ -78,10 +91,7 @@ const drawLines = function () {
 
     lineEl.dataset.direction = isReversedOrder ? "right" : "left";
 
-    lineEl.addEventListener("click", () => {
-      lineEl.remove();
-      lines = lines.filter((item) => !Object.is(item, line));
-    });
+    lineEl.addEventListener("click", removeLine.bind(lineEl, line));
 
     container.appendChild(lineEl);
   });

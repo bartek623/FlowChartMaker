@@ -1,3 +1,5 @@
+const SNAP_MARGIN = 10;
+
 export const showSnapLines = function (shapeToSkip, shapes, container) {
   const containerOffset = container.getBoundingClientRect().top;
 
@@ -37,7 +39,12 @@ export const snapToLine = function (element, shapes, container) {
 
   const snapLines = shapes.map((shape) => {
     if (shape === element)
-      return { left: -100, right: -100, top: -100, bottom: -100 };
+      return {
+        left: -SNAP_MARGIN,
+        right: -SNAP_MARGIN,
+        top: -SNAP_MARGIN,
+        bottom: -SNAP_MARGIN,
+      };
     const shapeDim = shape.getBoundingClientRect();
     const { left, right, top, bottom } = shapeDim;
     return { left, right, top, bottom };
@@ -46,7 +53,7 @@ export const snapToLine = function (element, shapes, container) {
   const elementDim = element.getBoundingClientRect();
 
   const isCloseEnough = function (el1, el2) {
-    return Math.abs(el1 - el2) < 10;
+    return Math.abs(el1 - el2) < SNAP_MARGIN;
   };
 
   snapLines.forEach((lines) => {
@@ -60,11 +67,10 @@ export const snapToLine = function (element, shapes, container) {
       element.style.left = lines.left - elementDim.width + "px";
     }
     if (isCloseEnough(lines.top, elementDim.top)) {
-      element.style.top = lines.top - containerOffset - +"px";
+      element.style.top = lines.top - containerOffset + "px";
     }
     if (isCloseEnough(lines.bottom, elementDim.top)) {
       element.style.top = lines.bottom - containerOffset + "px";
-      console.log(lines.bottom);
     }
     if (isCloseEnough(lines.top, elementDim.bottom)) {
       element.style.top =

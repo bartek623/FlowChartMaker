@@ -13,6 +13,7 @@ export const removeShape = function (element) {
 
   shapes.splice(elementIndex, 1);
   element.remove();
+  updateLines();
 };
 
 // Creating element

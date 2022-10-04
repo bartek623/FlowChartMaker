@@ -5,6 +5,7 @@ import {
   removeSnapLines,
   snapToLine,
 } from "./ShapeSnapLines.js";
+import { TIME_TO_RERENDER_SNAP_LINES } from "../appConfig.js";
 
 const shapes = [];
 
@@ -63,7 +64,22 @@ const dragHandling = function (element, container) {
     mousePos.top = e.clientY;
     elementPos = element.getBoundingClientRect();
 
-    showSnapLines(element, shapes, container);
+    /*
+     leaving it as reference
+    // showSnapLines(shapes, container, e);
+    // More optimal option
+    */
+  });
+
+  // Less optimal but dynamic rendering snap lines looks much better and lean
+  let lastTimeRenderedSnapLines = Date.now();
+  element.addEventListener("drag", (event) => {
+    // Render only for every TIME_RERENDER
+    if (Date.now() - lastTimeRenderedSnapLines < TIME_TO_RERENDER_SNAP_LINES)
+      return;
+
+    showSnapLines(shapes, container, event);
+    lastTimeRenderedSnapLines = Date.now();
   });
 
   element.addEventListener("dragend", (e) => {

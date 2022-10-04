@@ -1,6 +1,17 @@
-const SNAP_MARGIN = 10;
+import { SNAP_MARGIN, SHOW_SNAP_LINES_DISTANCE } from "../appConfig.js";
 
-export const showSnapLines = function (shapeToSkip, shapes, container) {
+const currentSnapLines = [];
+
+export const removeSnapLines = function () {
+  const snapLinesEls = document.querySelectorAll(".snap-line");
+  snapLinesEls.forEach((el) => el.remove());
+  currentSnapLines.length = 0;
+};
+
+export const showSnapLines = function (shapes, container, event) {
+  removeSnapLines();
+  const shapeToSkip = event.target.closest(".shape");
+
   const containerOffset = container.getBoundingClientRect().top;
 
   shapes.forEach((shape) => {
@@ -10,6 +21,10 @@ export const showSnapLines = function (shapeToSkip, shapes, container) {
     const { left, right, top, bottom } = shapeDim;
 
     const createSnapLine = function (x, y) {
+      if (currentSnapLines.some((line) => line.x === x && line.y === y)) {
+        return;
+      }
+
       const snapLineEl = document.createElement("div");
       snapLineEl.classList.add("snap-line");
 
@@ -20,18 +35,23 @@ export const showSnapLines = function (shapeToSkip, shapes, container) {
       if (x > 0) snapLineEl.style.height = 100 + "%";
 
       container.appendChild(snapLineEl);
+      currentSnapLines.push({ x, y });
     };
 
-    createSnapLine(left, 0);
-    createSnapLine(right, 0);
-    createSnapLine(0, top);
-    createSnapLine(0, bottom);
+    // Render snap lines if they are close enough
+    if (Math.abs(left - event.x) < SHOW_SNAP_LINES_DISTANCE) {
+      createSnapLine(left, 0);
+    }
+    if (Math.abs(right - event.x) < SHOW_SNAP_LINES_DISTANCE) {
+      createSnapLine(right, 0);
+    }
+    if (Math.abs(top - event.y) < SHOW_SNAP_LINES_DISTANCE) {
+      createSnapLine(0, top);
+    }
+    if (Math.abs(bottom - event.y) < SHOW_SNAP_LINES_DISTANCE) {
+      createSnapLine(0, bottom);
+    }
   });
-};
-
-export const removeSnapLines = function () {
-  const snapLinesEls = document.querySelectorAll(".snap-line");
-  snapLinesEls.forEach((el) => el.remove());
 };
 
 export const snapToLine = function (element, shapes, container) {

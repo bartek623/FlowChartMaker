@@ -339,6 +339,6 @@ button span {
   min-width: 1px;
   min-height: 1px;
 
-  opacity: 0.3;
+  opacity: 0.5;
   background-color: var(--border);
 }

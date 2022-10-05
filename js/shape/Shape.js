@@ -7,14 +7,10 @@ import {
 } from "./ShapeSnapLines.js";
 import { TIME_TO_RERENDER_SNAP_LINES } from "../appConfig.js";
 
-const shapes = [];
-
 export const removeShape = function (element) {
-  const elementIndex = shapes.findIndex((shape) => shape === element);
-
-  shapes.splice(elementIndex, 1);
   element.remove();
-  updateLines();
+  // Lines don't need to be updated here, because they are updated with resize event which is fired also when element is removed
+  // updateLines();
 };
 
 // Creating element
@@ -32,7 +28,6 @@ export const createShape = function (shape, container) {
   element.appendChild(elementText);
 
   elementContainer.appendChild(element);
-  shapes.push(elementContainer);
 
   // controls
   setControls(elementContainer);
@@ -42,6 +37,7 @@ export const createShape = function (shape, container) {
 
   // on resize observer
   // !!!! is it optimal enough?
+  // Fires when element is resized and also when element is removed
   const resizeObserver = new ResizeObserver(() => {
     updateLines();
   });
@@ -66,7 +62,7 @@ const dragHandling = function (element, container) {
 
     /*
      leaving it as reference
-    // showSnapLines(shapes, container, e);
+    // showSnapLines(e);
     // More optimal option
     */
   });
@@ -78,7 +74,7 @@ const dragHandling = function (element, container) {
     if (Date.now() - lastTimeRenderedSnapLines < TIME_TO_RERENDER_SNAP_LINES)
       return;
 
-    showSnapLines(shapes, container, event);
+    showSnapLines(event);
     lastTimeRenderedSnapLines = Date.now();
   });
 
@@ -111,7 +107,7 @@ const dragHandling = function (element, container) {
 
     element.style.left = `${newLeft}px`;
     element.style.top = `${newTop}px`;
-    snapToLine(element, shapes, container);
+    snapToLine(element);
     updateLines();
     removeSnapLines();
   });

@@ -27,7 +27,6 @@ export const createLine = function (anchor) {
 
   currentAnchor.element = null;
 
-  if (newLine.start.element === newLine.end.element) return;
   if (newLine.start.element.parentNode === newLine.end.element.parentNode)
     return;
 
@@ -55,10 +54,11 @@ const removeLines = function () {
 const drawLines = function () {
   const container = document.getElementById("board");
 
+  const linesToRemove = [];
   lines.forEach((line) => {
-    if (!line.start.getX() || !line.end.getX()) {
-      const lineIndex = lines.findIndex((el) => el === line);
-      lines.splice(lineIndex, 1);
+    const isThere = (el) => document.body.contains(el);
+    if (!isThere(line.start.element) || !isThere(line.end.element)) {
+      linesToRemove.push(line);
       return;
     }
 
@@ -94,6 +94,11 @@ const drawLines = function () {
     lineEl.addEventListener("click", removeLine.bind(lineEl, line));
 
     container.appendChild(lineEl);
+  });
+
+  linesToRemove.forEach((line) => {
+    const lineIndex = lines.findIndex((el) => el === line);
+    lines.splice(lineIndex, 1);
   });
 };
 

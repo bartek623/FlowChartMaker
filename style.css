@@ -84,6 +84,7 @@ button span {
   transform: translateY(0);
 
   position: fixed;
+  z-index: 999999999;
   bottom: 0;
 
   display: flex;

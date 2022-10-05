@@ -8,8 +8,10 @@ export const removeSnapLines = function () {
   currentSnapLines.length = 0;
 };
 
-export const showSnapLines = function (shapes, container, event) {
+export const showSnapLines = function (event) {
   removeSnapLines();
+  const container = document.getElementById("board");
+  const shapes = document.querySelectorAll(".shape");
   const shapeToSkip = event.target.closest(".shape");
 
   const containerOffset = container.getBoundingClientRect().top;
@@ -29,7 +31,8 @@ export const showSnapLines = function (shapes, container, event) {
       snapLineEl.classList.add("snap-line");
 
       snapLineEl.style.left = x + "px";
-      snapLineEl.style.top = y - containerOffset + "px";
+      snapLineEl.style.top = y - (y > 0 ? containerOffset : 0) + "px";
+      snapLineEl.style.top = y ? `${y - containerOffset}px` : "0px";
 
       if (y > 0) snapLineEl.style.width = 100 + "%";
       if (x > 0) snapLineEl.style.height = 100 + "%";
@@ -54,7 +57,9 @@ export const showSnapLines = function (shapes, container, event) {
   });
 };
 
-export const snapToLine = function (element, shapes, container) {
+export const snapToLine = function (element) {
+  const container = document.getElementById("board");
+  const shapes = [...document.querySelectorAll(".shape")];
   const containerOffset = container.getBoundingClientRect().top;
 
   const snapLines = shapes.map((shape) => {

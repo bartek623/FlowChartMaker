@@ -79,7 +79,9 @@ button span {
 /* Toolbox */
 .toolbox {
   width: 100%;
-  background-color: var(--light-background);
+  background-color: rgba(185, 185, 185, 0.3);
+  backdrop-filter: blur(1px);
+  border-top: 2px solid var(--border);
   padding: 1.2rem;
   transform: translateY(0);
 
@@ -111,7 +113,7 @@ button span {
   z-index: 999;
   top: 0;
   left: 50%;
-  translate: -50% -100%;
+  translate: -50% -125%;
 
   color: #222;
   background-color: var(--dark-background);

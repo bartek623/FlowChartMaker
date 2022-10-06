@@ -7,3 +7,6 @@ export const SNAP_MARGIN = 10;
 
 // distance in px (from cursor) in which snap lines should show up
 export const SHOW_SNAP_LINES_DISTANCE = 100;
+
+// delay for function called on shape resize
+export const ON_RESIZE_DELAY = 30;

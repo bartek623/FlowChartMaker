@@ -5,7 +5,7 @@ import {
   removeSnapLines,
   snapToLine,
 } from "./ShapeSnapLines.js";
-import { TIME_TO_RERENDER_SNAP_LINES } from "../appConfig.js";
+import { TIME_TO_RERENDER_SNAP_LINES, ON_RESIZE_DELAY } from "../appConfig.js";
 
 export const removeShape = function (element) {
   element.remove();
@@ -36,10 +36,22 @@ export const createShape = function (shape, container) {
   dragHandling(elementContainer, container);
 
   // on resize observer
-  // !!!! is it optimal enough?
   // Fires when element is resized and also when element is removed
+  let isWaiting = false;
+  let lastTimeout;
   const resizeObserver = new ResizeObserver(() => {
+    if (isWaiting) {
+      clearTimeout(lastTimeout);
+      lastTimeout = setTimeout(() => updateLines(), ON_RESIZE_DELAY);
+      return;
+    }
+
     updateLines();
+    isWaiting = true;
+
+    setTimeout(() => {
+      isWaiting = false;
+    }, ON_RESIZE_DELAY);
   });
   resizeObserver.observe(elementContainer);
 

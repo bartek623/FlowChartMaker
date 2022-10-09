@@ -1,4 +1,4 @@
-# Social App
+# FlowChartMaker
 
 Single page application made with vanilla JavaScript. User can create flow charts with Drag&Drop.
 
